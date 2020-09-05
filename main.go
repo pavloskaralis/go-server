@@ -2,8 +2,8 @@ package main
 
 import (
 	"go-server/controller"
-	"go-server/model"
 	"log"
+	"fmt"
 	"net/http"
 	"github.com/gorilla/mux"
 )
@@ -11,8 +11,10 @@ import (
 
 
 func main() {
+	fmt.Printf("listening to port 8080")
+
 	r := mux.NewRouter()
-	r.HandleFunc("/signup", controller.signupHandler).
+	r.HandleFunc("/signup", controller.SignupHandler).
 		Methods("POST")
 	r.HandleFunc("/login", controller.LoginHandler).
 		Methods("POST")

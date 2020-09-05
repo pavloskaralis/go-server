@@ -3,25 +3,23 @@ package controller
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"go-server/config/db"
 	"go-server/model"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/mongodb/mongo-go-driver/bson"
+	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/bcrypt"
 )
 
 func SignupHandler(w http.ResponseWriter, r *http.Request) {
 	//setup response
-	w.Header().Set("Contet-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	var res model.ResponseResult
 
 	//retrieve request; return error if body != model 
-	var user model.user
+	var user model.User
 	body, _ := ioutil.ReadAll(r.Body)
 	err := json.Unmarshal(body, &user)
 	if err != nil {
@@ -34,21 +32,21 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 	collection, err := db.GetDBCollection()
 	if err !=nil {
 		res.Error = err.Error(); 
-		json.NewEcoder(w).Encode(res)
+		json.NewEncoder(w).Encode(res)
 		return
 	}
 
 	//query for existing user
-	var result model.user
+	var result model.User
 	err = collection.FindOne(context.TODO(), bson.D{{"username", user.Username}}).Decode(&result)
 	if err != nil {
 		//if no user hash password, and create new user 
 		if err.Error() == "mongo: no documents in result" {
 			//hash password; return error if encryption fails
-			hash, error := bcrypt.generateFromPassword([]byte(user.Password), 5)
+			hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), 5)
 			if err != nil {
 				res.Error = "Error hashing password, try again."
-				json.NewEcoder(w).Encode(res)
+				json.NewEncoder(w).Encode(res)
 			}
 
 			//update model pw; store as new user; return error if mongo fails
@@ -74,10 +72,10 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func LoginHanlder(w http.ResponseWrite, r *http.Request) {
+func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	//setup response
-	w.Header().set("Content-Type", "application/json")
-	var res mode.ResponseResult
+	w.Header().Set("Content-Type", "application/json")
+	var res model.ResponseResult
 
 	//retrieve request; lreturn error if body != model 
 	var user model.User
