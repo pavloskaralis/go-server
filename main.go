@@ -11,9 +11,8 @@ import (
 
 
 func main() {
-
 	r := mux.NewRouter()
-	r.HandleFunc("/register", controller.RegisterHandler).
+	r.HandleFunc("/signup", controller.signupHandler).
 		Methods("POST")
 	r.HandleFunc("/login", controller.LoginHandler).
 		Methods("POST")
