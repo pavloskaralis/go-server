@@ -14,7 +14,7 @@ go run main.go
 
 Server can be tested with Postman.
 
-<ins>Signup:</ins>
+<ins>Signup</ins>
 ```bash
 Method: POST
 Url: https://localhost:8080/signup
@@ -24,7 +24,7 @@ Body: {
     "email": "<email>"
 }
 ```
-<ins>Login:</ins>
+<ins>Login</ins>
 ```bash
 Method: POST
 Url: https://localhost:8080/login
@@ -34,7 +34,7 @@ Body: {
 }
 ```
 
-<ins>Auto Login:</ins>
+<ins>Auto Login</ins>
 ```bash
 Method: GET
 Url: https://localhost:8080/auto_login
@@ -42,7 +42,7 @@ Auth Type: Bearer Token
 Token: <token>
 ```
 
-## Explanation
+## Details
 
 * Server has 3 routes: /signup, /login, and /auto_login.
 * Connection is encrypted through Https with self-signed certificate.
