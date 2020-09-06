@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strings"
 	"fmt"
+	"os"
 	jwt "github.com/dgrijalva/jwt-go"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -26,7 +27,7 @@ func AutoLoginHandler(w http.ResponseWriter, r *http.Request) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method.")
 		}
-		return []byte("aX13bD6u7w2QvGL0"), nil
+		return []byte(os.Getenv("SIGNATURE")), nil
 	})
 
 	//search for user by uid

@@ -7,7 +7,7 @@ import (
 	"go-server/model"
 	"io/ioutil"
 	"net/http"
-	
+	"os"
 	jwt "github.com/dgrijalva/jwt-go"
 	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/bcrypt"
@@ -57,7 +57,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"UID": result.UID.Hex(),
 	})
-	tokenString, err := token.SignedString([]byte("aX13bD6u7w2QvGL0"))
+	tokenString, err := token.SignedString([]byte(os.Getenv("SOME_ENV_VAR")))
 	if err != nil {
 		resErr.Error = "Error generating token, try again."
 		json.NewEncoder(w).Encode(resErr)

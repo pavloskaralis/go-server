@@ -7,10 +7,13 @@ import (
 	"net/http"
 	"github.com/gorilla/mux"
 	"github.com/kabukky/httpscerts"
+	"github.com/joho/godotenv"
+	"os"
 )
 
 
 func main() {
+	godotenv.Load()
 	//note: self signed certificate
     err := httpscerts.Check("cert.pem", "key.pem")
     if err != nil {
