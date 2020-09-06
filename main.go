@@ -29,9 +29,9 @@ import (
 
 
 func main() {
+	//load env var
 	godotenv.Load()
 	//note: self signed certificate
-	
     err := httpscerts.Check("cert.pem", "key.pem")
     if err != nil {
         err = httpscerts.Generate("cert.pem", "key.pem", "127.0.0.1:8080")
@@ -39,19 +39,19 @@ func main() {
             log.Fatal("Error: Couldn't create https certs.")
         }
 	}
-
+	//router
 	r := mux.NewRouter()
 	r.HandleFunc("/signup", controller.SignupHandler).
 		Methods("POST")
 	r.HandleFunc("/login", controller.LoginHandler).
 		Methods("POST")
+	r.HandleFunc("/refresh", controller.RefreshHandler).
+		Methods("POST")
 	r.Handle("/profile", Middleware(http.HandlerFunc(controller.ProfileHandler))).
 		Methods("GET")
 
-
+	//connect
 	fmt.Printf("listening on port 8080")
-
 	log.Fatal(http.ListenAndServeTLS(":8080", "cert.pem", "key.pem", r))
-	
 }
 
