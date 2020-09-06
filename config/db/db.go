@@ -6,20 +6,25 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func GetDBCollection() (*mongo.Collection, error) {
-	//connect to local mongo; return error if initialization fails
-    client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
-	if err != nil {
-		return nil, err
-	}
-	client.Connect(context.TODO())
-	//check connection
-	err = client.Ping(context.TODO(), nil)
-	if err != nil {
-		return nil, err
-	}
+var DB *mongo.Client
 
-	client.Connect(context.TODO())
-	collection := client.Database("GoServer").Collection("users")
+func InitDB() (error) {
+	db, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
+	if err != nil {
+		return err
+	}
+	db.Connect(context.TODO())
+	//check connection
+	err = db.Ping(context.TODO(), nil)
+	if err != nil {
+		return err
+	}
+	DB = db
+	return nil
+}
+
+func GetUserCollection() (*mongo.Collection, error) {
+	//connect to local mongo; return error if initialization fails
+	collection := DB.Database("GoServer").Collection("users")
 	return collection, nil 
 }

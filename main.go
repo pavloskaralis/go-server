@@ -2,6 +2,7 @@ package main
 
 import (
 	"go-server/controller"
+	"go-server/config/db"
 	"log"
 	"fmt"
 	"net/http"
@@ -28,6 +29,7 @@ import (
 }
 
 
+
 func main() {
 	//load env var
 	godotenv.Load()
@@ -36,9 +38,22 @@ func main() {
     if err != nil {
         err = httpscerts.Generate("cert.pem", "key.pem", "127.0.0.1:8080")
         if err != nil {
-            log.Fatal("Error: Couldn't create https certs.")
+            log.Fatal("Error: Could not create https certs.")
         }
 	}
+
+	//init mongo connection
+	err = db.InitDB()
+	if err != nil {
+        log.Fatal("Error: Could not connect to mongoDB.")
+	}
+
+	//init Redis connection
+	err = auth.InitRedis()
+	if err != nil {
+        log.Fatal("Error: Could not connect to redis.")
+	}
+
 	//router
 	r := mux.NewRouter()
 	r.HandleFunc("/signup", controller.SignupHandler).

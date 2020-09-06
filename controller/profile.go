@@ -30,7 +30,7 @@ func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 	
 
 	//retrieve collection; return error if mongo fails
-	collection, err := db.GetDBCollection()
+	collection, err := db.GetUserCollection()
 	if err != nil {
 		resErr.Error = err.Error()
 		json.NewEncoder(w).Encode(resErr)
