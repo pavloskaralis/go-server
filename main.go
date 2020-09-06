@@ -25,7 +25,7 @@ func main() {
 		Methods("POST")
 	r.HandleFunc("/login", controller.LoginHandler).
 		Methods("POST")
-	r.HandleFunc("/autologin", controller.AutoLoginHandler).
+	r.HandleFunc("/auto_login", controller.AutoLoginHandler).
 		Methods("GET")
 
 	fmt.Printf("listening on port 8080")
