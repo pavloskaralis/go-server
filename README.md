@@ -1,6 +1,6 @@
 # Go Server
 
-An Https Golang server with /signup, /login, and /profile routes.
+An Https Golang server with /signup, /login, /refresh, and /profile routes.
 
 ## Requirements
 
@@ -46,6 +46,13 @@ Auth Type: Bearer Token
 Token: <access token>
 ```
 
+<ins>Refresh</ins>
+```bash
+Method: POST
+Url: https://localhost:8080/refresh
+Body: {
+    "refresh": "<refresh_token>",
+}
 ## Details
 
 * Connection is encrypted through Https with self-signed certificate.
@@ -56,3 +63,4 @@ Token: <access token>
 * /login and /signup return Auth (tokens) and Profile(uid, username, email).
 * /profile is wrapped in auth middleware that checks access token expiration.
 * /profile validates access token and returns Profile via uid in token claims. 
+* /refresh returns refreshed access and refresh JWTs via current refresh token.
