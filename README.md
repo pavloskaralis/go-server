@@ -43,7 +43,7 @@ Body: {
 Method: GET
 Url: https://localhost:8080/profile
 Auth Type: Bearer Token
-Token: <token>
+Token: <access token>
 ```
 
 ## Details
