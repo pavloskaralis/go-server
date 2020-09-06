@@ -31,6 +31,7 @@ import (
 func main() {
 	godotenv.Load()
 	//note: self signed certificate
+	
     err := httpscerts.Check("cert.pem", "key.pem")
     if err != nil {
         err = httpscerts.Generate("cert.pem", "key.pem", "127.0.0.1:8080")
@@ -50,7 +51,7 @@ func main() {
 
 	fmt.Printf("listening on port 8080")
 
-	http.ListenAndServeTLS(":8080", "cert.pem", "key.pem", r)
+	log.Fatal(http.ListenAndServeTLS(":8080", "cert.pem", "key.pem", r))
 	
 }
 

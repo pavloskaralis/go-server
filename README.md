@@ -54,4 +54,5 @@ Token: <access token>
 * Login and Signup initate creation and storage of access and refresh JWTs.
 * JWT tokens are tracked by Redis and set to auto delete when expired. 
 * Login and Signup return Auth (tokens) and Profile(uid, username, email).
+* Profile is wrapped in auth middleware that checks access token expiration.
 * Profile validates access token and returns Profile using uid in token claims. 
