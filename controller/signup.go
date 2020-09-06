@@ -78,10 +78,18 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 			oid,_ := newUser.InsertedID.(primitive.ObjectID); 
 			uid := oid.Hex()
 			//generate token; return error if jwt fails
-			tokenString, err := auth.CreateToken(uid)
+			ts, err := auth.CreateToken(uid)
 			if err != nil {
 				collection.DeleteOne(context.TODO(), bson.M{"_id": oid})
 				resErr.Error = "Error generating token, try again."
+				json.NewEncoder(w).Encode(resErr)
+				return
+			}
+			//create auth; return error if redis fails
+			err = auth.CreateAuth(uid, ts)
+			if err != nil {
+				collection.DeleteOne(context.TODO(), bson.M{"_id": oid})
+				resErr.Error = "Error creating auth, try again."
 				json.NewEncoder(w).Encode(resErr)
 				return
 			}
@@ -89,7 +97,8 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 			//return auth and profile
 			resSuc := model.ResponseSuccess{
 				Auth: model.Auth{
-					Token: tokenString,
+					Access: ts.AccessToken,
+					Refresh: ts.RefreshToken,
 				},
 				Profile: model.Profile{
 					UID: uid,

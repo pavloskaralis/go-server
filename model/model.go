@@ -16,7 +16,8 @@ type ResponseError struct {
 }
 
 type Auth struct {
-	Token string `json:"token"`
+	Access string `json:"access"`
+	Refresh string `json:"refresh"`
 } 
 
 type Profile struct {

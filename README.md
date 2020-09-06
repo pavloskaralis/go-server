@@ -2,6 +2,10 @@
 
 An Https Golang server with signup, login, and auto_login routes.
 
+## Requirements
+
+Server requires local installation of mongoDB and Redis (JWT tracking).
+
 ## Installation
 
 Run the main function to start server.
@@ -47,5 +51,7 @@ Token: <token>
 * Connection is encrypted through Https with self-signed certificate.
 * Signup requires username, password, and email fields.
 * Password is hashed and salted with Bcrypt before storage in mongoDB.
-* Login and Signup return Auth (token) and Profile (uid, username, email).
-* Auto Login validates JWT and returns Profile from uid in token claims. 
+* Login and Signup initate creation and storage ofaccess and refresh JWTs.
+* JWT tokens are tracked by Redis and set to auto delete when expired. 
+* Login and Signup return Auth (tokens) and Profile(uid, username, email).
+* Auto Login validates JWTs and returns Profile using uid in token claims. 

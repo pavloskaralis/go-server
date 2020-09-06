@@ -54,17 +54,26 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	uid := result.UID.Hex()
 	//generate token; return error if jwt fails
-	tokenString, err := auth.CreateToken(uid)
+	ts, err := auth.CreateToken(uid)
 	if err != nil {
 		resErr.Error = "Error generating token, try again."
 		json.NewEncoder(w).Encode(resErr)
 		return
 	}
+	//create auth; return error if redis fails
+	err = auth.CreateAuth(uid, ts)
+	if err != nil {
+		resErr.Error = "Error creating auth, try again."
+		json.NewEncoder(w).Encode(resErr)
+		return
+	}
+	
 
 	//return auth and profile
 	resSuc := model.ResponseSuccess{
 		Auth: model.Auth{
-			Token: tokenString,
+			Access: ts.AccessToken,
+			Refresh: ts.RefreshToken,
 		},
 		Profile: model.Profile{
 			UID: uid,
