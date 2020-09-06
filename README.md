@@ -1,6 +1,6 @@
 # Go Server
 
-An Https Golang server with signup, login, and autologin routes.
+An Https Golang server with signup, login, and auto_login routes.
 
 ## Installation
 
@@ -44,7 +44,6 @@ Token: <token>
 
 ## Details
 
-* Server has 3 routes: /signup, /login, and /auto_login.
 * Connection is encrypted through Https with self-signed certificate.
 * Signup requires username, password, and email fields.
 * Password is hashed and salted with Bcrypt before storage in mongoDB.
