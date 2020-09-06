@@ -8,7 +8,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/kabukky/httpscerts"
 	"github.com/joho/godotenv"
-	"os"
 )
 
 
