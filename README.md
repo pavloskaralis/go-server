@@ -14,7 +14,7 @@ go run main.go
 
 Server can be tested with Postman.
 
-Signup
+<ins>Signup:</ins>
 ```bash
 Method: POST
 Url: https://localhost:8080/signup
@@ -24,7 +24,7 @@ Body: {
     "email": "<email>"
 }
 ```
-Login
+<ins>Login:</ins>
 ```bash
 Method: POST
 Url: https://localhost:8080/login
@@ -34,7 +34,7 @@ Body: {
 }
 ```
 
-Auto Login
+<ins>Auto Login:</ins>
 ```bash
 Method: GET
 Url: https://localhost:8080/auto_login
