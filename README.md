@@ -41,7 +41,7 @@ Body: {
 <ins>Profile</ins>
 ```bash
 Method: GET
-Url: https://localhost:8080/auto_login
+Url: https://localhost:8080/profile
 Auth Type: Bearer Token
 Token: <token>
 ```
