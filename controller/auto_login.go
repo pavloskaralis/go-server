@@ -19,7 +19,6 @@ func AutoLoginHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var resErr model.ResponseError
 
-
 	//validate token
 	tokenString := r.Header.Get("Authorization")
 	tokenString = strings.Split(tokenString, " ")[1]
@@ -29,23 +28,27 @@ func AutoLoginHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		return []byte(os.Getenv("SIGNATURE")), nil
 	})
+	if err != nil {
+		resErr.Error = err.Error()
+		json.NewEncoder(w).Encode(resErr)
+		return 
+	}
 
-	//search for user by uid
+	//retrieve claims; return error if failure
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		//retrieve collection; return error if mongo retrieval fails
+		//retrieve collection; return error if mongo fails
 		collection, err := db.GetDBCollection()
 		if err != nil {
 			resErr.Error = err.Error()
 			json.NewEncoder(w).Encode(resErr)
 			return 
 		}
-
+		//search for user by uid; return error if not found
 		var result model.User
-		uid := claims["UID"].(string)
+		uid := claims["uid"].(string)
 		objID, _ := primitive.ObjectIDFromHex(uid)
 		err = collection.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&result)
-		//return error if user not found
-		if err != nil {
+=		if err != nil {
 			resErr.Error = uid
 			json.NewEncoder(w).Encode(resErr)
 			return

@@ -7,8 +7,6 @@ import (
 	"go-server/model"
 	"io/ioutil"
 	"net/http"
-	"os"
-	jwt "github.com/dgrijalva/jwt-go"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
@@ -77,12 +75,9 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			oid,_ := newUser.InsertedID.(primitive.ObjectID); 
-			
+			uid := oid.Hex()
 			//generate token; return error if jwt fails
-			token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-				"UID":  oid.Hex(),
-			})
-			tokenString, err := token.SignedString([]byte(os.Getenv("SIGNATURE")))
+			tokenString, err := CreateToken(uid)
 			if err != nil {
 				collection.DeleteOne(context.TODO(), bson.M{"_id": oid})
 				resErr.Error = "Error generating token, try again."
@@ -96,7 +91,7 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 					Token: tokenString,
 				},
 				Profile: model.Profile{
-					UID: oid.Hex(),
+					UID: uid,
 					Username: user.Username,
 					Email: user.Email,
 				},

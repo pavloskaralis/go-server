@@ -32,11 +32,7 @@ func main() {
 
 	fmt.Printf("listening on port 8080")
 
-	go http.ListenAndServeTLS(":8080", "cert.pem", "key.pem", r)
-	//redirect hypothetical http client to https
-	http.ListenAndServe(":8081", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "https://127.0.0.1:8080"+r.URL.String(), http.StatusMovedPermanently)
-	}))
+	http.ListenAndServeTLS(":8080", "cert.pem", "key.pem", r)
 	
 }
 
