@@ -63,4 +63,4 @@ Body: {
 * /login and /signup return Auth (tokens) and Profile(uid, username, email).
 * /profile is wrapped in auth middleware that checks access token expiration.
 * /profile validates access token and returns Profile via uid in token claims. 
-* /refresh returns refreshed access and refresh JWTs via current refresh token.
+* /refresh returns refreshed Auth via current refresh token.
