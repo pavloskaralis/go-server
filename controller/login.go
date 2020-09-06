@@ -57,7 +57,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"UID": result.UID.Hex(),
 	})
-	tokenString, err := token.SignedString([]byte(os.Getenv("SOME_ENV_VAR")))
+	tokenString, err := token.SignedString([]byte(os.Getenv("SIGNATURE")))
 	if err != nil {
 		resErr.Error = "Error generating token, try again."
 		json.NewEncoder(w).Encode(resErr)
