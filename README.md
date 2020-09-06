@@ -16,7 +16,7 @@ go run main.go
 
 ## Testing
 
-Server can be tested with Postman.
+Server can be tested using Postman:
 
 <ins>Signup</ins>
 ```bash
