@@ -14,8 +14,8 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/signup", controller.SignupHandler).
 		Methods("POST")
-	// r.HandleFunc("/login", controller.LoginHandler).
-	// 	Methods("POST")
+	r.HandleFunc("/login", controller.LoginHandler).
+		Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
