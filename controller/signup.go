@@ -67,17 +67,6 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
-			//generate token; return error if jwt fails
-			token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-				"username":  user.Username,
-				"email": user.Email,
-			})
-			tokenString, err := token.SignedString([]byte("aX13bD6u7w2QvGL0"))
-			if err != nil {
-				resErr.Error = "Error generating token, try again."
-				json.NewEncoder(w).Encode(resErr)
-				return
-			}
 
 			//update model pw; store as new user; return error if mongo fails
 			user.Password = string(hash)
@@ -88,7 +77,18 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			oid,_ := newUser.InsertedID.(primitive.ObjectID); 
-				
+			
+			//generate token; return error if jwt fails
+			token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+				"UID":  oid.Hex(),
+			})
+			tokenString, err := token.SignedString([]byte("aX13bD6u7w2QvGL0"))
+			if err != nil {
+				collection.DeleteOne(context.TODO(), bson.M{"_id": oid})
+				resErr.Error = "Error generating token, try again."
+				json.NewEncoder(w).Encode(resErr)
+				return
+			}
 			
 			//return auth and profile
 			resSuc := model.ResponseSuccess{

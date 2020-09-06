@@ -55,8 +55,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	//generate token; return error if jwt fails
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"username":  result.Username,
-		"email": result.Email,
+		"UID": result.UID.Hex(),
 	})
 	tokenString, err := token.SignedString([]byte("aX13bD6u7w2QvGL0"))
 	if err != nil {
