@@ -11,17 +11,14 @@ import (
 
 
 func main() {
-
 	//note: self signed certificate
     err := httpscerts.Check("cert.pem", "key.pem")
     if err != nil {
-        err = httpscerts.Generate("cert.pem", "key.pem", "127.0.0.1:8089")
+        err = httpscerts.Generate("cert.pem", "key.pem", "127.0.0.1:8080")
         if err != nil {
             log.Fatal("Error: Couldn't create https certs.")
         }
 	}
-	
-	fmt.Printf("listening on port 8080")
 
 	r := mux.NewRouter()
 	r.HandleFunc("/signup", controller.SignupHandler).
@@ -29,6 +26,13 @@ func main() {
 	r.HandleFunc("/login", controller.LoginHandler).
 		Methods("POST")
 
-	log.Fatal(http.ListenAndServeTLS(":8080", "cert.pem", "key.pem", r))
+	fmt.Printf("listening on port 8080")
 
+	go http.ListenAndServeTLS(":8080", "cert.pem", "key.pem", r)
+	//redirect hypothetical http to https
+	http.ListenAndServe(":8081", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "https://127.0.0.1:8080"+r.URL.String(), http.StatusMovedPermanently)
+	}))
+	
 }
+
