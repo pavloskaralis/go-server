@@ -6,9 +6,21 @@ import (
 	"fmt"
 	"net/http"
 	"github.com/gorilla/mux"
+	"github.com/kabukky/httpscerts"
 )
 
+
 func main() {
+
+	//note: self signed certificate
+    err := httpscerts.Check("cert.pem", "key.pem")
+    if err != nil {
+        err = httpscerts.Generate("cert.pem", "key.pem", "127.0.0.1:8089")
+        if err != nil {
+            log.Fatal("Error: Couldn't create https certs.")
+        }
+	}
+	
 	fmt.Printf("listening on port 8080")
 
 	r := mux.NewRouter()
@@ -17,5 +29,6 @@ func main() {
 	r.HandleFunc("/login", controller.LoginHandler).
 		Methods("POST")
 
-	log.Fatal(http.ListenAndServe(":8080", r))
+	log.Fatal(http.ListenAndServeTLS(":8080", "cert.pem", "key.pem", r))
+
 }
