@@ -45,9 +45,9 @@ func main() {
 		Methods("POST")
 	r.HandleFunc("/login", controller.LoginHandler).
 		Methods("POST")
-	r.HandleFunc("/profile", controller.ProfileHandler).
+	r.Handle("/profile", Middleware(http.HandlerFunc(controller.ProfileHandler))).
 		Methods("GET")
-	http.Handle("/profile", Middleware(r))
+
 
 	fmt.Printf("listening on port 8080")
 
