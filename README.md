@@ -1,6 +1,6 @@
 # Go Server
 
-An Https Golang server with signup, login, and profile routes.
+An Https Golang server with /signup, /login, and /profile routes.
 
 ## Requirements
 
@@ -53,6 +53,6 @@ Token: <access token>
 * Password is hashed and salted with Bcrypt before storage in mongoDB.
 * Login and Signup initate creation and storage of access and refresh JWTs.
 * JWT tokens are tracked by Redis and set to auto delete when expired. 
-* Login and Signup return Auth (tokens) and Profile(uid, username, email).
-* Profile is wrapped in auth middleware that checks access token expiration.
-* Profile validates access token and returns Profile using uid in token claims. 
+* /login and /signup return Auth (tokens) and Profile(uid, username, email).
+* /profile is wrapped in auth middleware that checks access token expiration.
+* /profile validates access token and returns Profile via uid in token claims. 
