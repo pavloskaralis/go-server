@@ -1,6 +1,6 @@
 # Go Server
 
-An Https Golang server with signup, login, and auto_login routes.
+An Https Golang server with signup, login, and profile routes.
 
 ## Requirements
 
@@ -38,7 +38,7 @@ Body: {
 }
 ```
 
-<ins>Auto Login</ins>
+<ins>Profile</ins>
 ```bash
 Method: GET
 Url: https://localhost:8080/auto_login
@@ -51,7 +51,7 @@ Token: <token>
 * Connection is encrypted through Https with self-signed certificate.
 * Signup requires username, password, and email fields.
 * Password is hashed and salted with Bcrypt before storage in mongoDB.
-* Login and Signup initate creation and storage ofaccess and refresh JWTs.
+* Login and Signup initate creation and storage of access and refresh JWTs.
 * JWT tokens are tracked by Redis and set to auto delete when expired. 
 * Login and Signup return Auth (tokens) and Profile(uid, username, email).
-* Auto Login validates JWTs and returns Profile using uid in token claims. 
+* Profile validates access token and returns Profile using uid in token claims. 
