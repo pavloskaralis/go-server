@@ -8,7 +8,24 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/kabukky/httpscerts"
 	"github.com/joho/godotenv"
+	"go-server/config/auth"
+	"encoding/json"
 )
+
+
+ func Middleware(h http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		//check expiration
+		var resErr controller.ResponseError
+		err := auth.ValidateToken(r)
+		if err != nil {
+			resErr.Error = err.Error()
+			json.NewEncoder(w).Encode(resErr)
+			return
+		}
+        h.ServeHTTP(w, r)
+    })
+}
 
 
 func main() {
@@ -29,6 +46,7 @@ func main() {
 		Methods("POST")
 	r.HandleFunc("/profile", controller.ProfileHandler).
 		Methods("GET")
+	http.Handle("/profile", Middleware(r))
 
 	fmt.Printf("listening on port 8080")
 

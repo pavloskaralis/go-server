@@ -15,7 +15,7 @@ import (
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	//setup response
 	w.Header().Set("Content-Type", "application/json")
-	var resErr model.ResponseError
+	var resErr ResponseError
 
 	//retrieve request; lreturn error if body != model 
 	var user model.User
@@ -70,12 +70,12 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	
 
 	//return auth and profile
-	resSuc := model.ResponseSuccess{
-		Auth: model.Auth{
+	resSuc := ResponseSuccess{
+		Auth: Auth{
 			Access: ts.AccessToken,
 			Refresh: ts.RefreshToken,
 		},
-		Profile: model.Profile{
+		Profile: Profile{
 			UID: uid,
 			Username: result.Username,
 			Email: result.Email,

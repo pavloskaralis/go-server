@@ -12,7 +12,7 @@ import (
 )
 
 func ProfileHandler(w http.ResponseWriter, r *http.Request) {
-	var resErr model.ResponseError
+	var resErr ResponseError
 
 	tokenAuth, err := auth.ExtractTokenMetadata(r)
 	if err != nil {
@@ -46,7 +46,7 @@ func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//return auth and profile
-	resSuc := model.Profile{ 
+	resSuc := Profile{ 
 		UID: result.UID.Hex(),
 		Username: result.Username,
 		Email: result.Email,
