@@ -48,7 +48,7 @@ func AutoLoginHandler(w http.ResponseWriter, r *http.Request) {
 		uid := claims["uid"].(string)
 		objID, _ := primitive.ObjectIDFromHex(uid)
 		err = collection.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&result)
-=		if err != nil {
+		if err != nil {
 			resErr.Error = uid
 			json.NewEncoder(w).Encode(resErr)
 			return

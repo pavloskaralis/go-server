@@ -1,10 +1,19 @@
-package controller
+package auth
 
 import (
 	"time"
 	"os"
 	jwt "github.com/dgrijalva/jwt-go"
 )
+
+// type TokenDetails struct {
+// 	AccessToken  string
+// 	RefreshToken string
+// 	AccessUuid   string
+// 	RefreshUuid  string
+// 	AtExpires    int64
+// 	RtExpires    int64
+// }
 
 func CreateToken(userid string) (string, error) {
 	var err error

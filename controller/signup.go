@@ -7,6 +7,7 @@ import (
 	"go-server/model"
 	"io/ioutil"
 	"net/http"
+	"go-server/config/auth"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
@@ -77,7 +78,7 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 			oid,_ := newUser.InsertedID.(primitive.ObjectID); 
 			uid := oid.Hex()
 			//generate token; return error if jwt fails
-			tokenString, err := CreateToken(uid)
+			tokenString, err := auth.CreateToken(uid)
 			if err != nil {
 				collection.DeleteOne(context.TODO(), bson.M{"_id": oid})
 				resErr.Error = "Error generating token, try again."
