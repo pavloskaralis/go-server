@@ -54,7 +54,7 @@ Token: <access token>
 Method: POST
 Url: https://localhost:8080/refresh
 Body: {
-    "refresh": "<refresh_token>",
+    "refresh_token": "<refresh_token>",
 }
 ## Details
 

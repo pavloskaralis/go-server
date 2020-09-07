@@ -30,7 +30,7 @@ func CreateToken(userid string) (*TokenDetails, error) {
 	atClaims := jwt.MapClaims{}
 	atClaims["authorized"] = true
 	atClaims["access_uuid"] = td.AccessUuid
-	atClaims["user_id"] = userid
+	atClaims["uid"] = userid
 	atClaims["exp"] = td.AtExpires
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
 	td.AccessToken, err = at.SignedString([]byte(os.Getenv("SIGNATURE")))
@@ -41,7 +41,7 @@ func CreateToken(userid string) (*TokenDetails, error) {
 	//Creating Refresh Token
 	rtClaims := jwt.MapClaims{}
 	rtClaims["refresh_uuid"] = td.RefreshUuid
-	rtClaims["user_id"] = userid
+	rtClaims["uid"] = userid
 	rtClaims["exp"] = td.RtExpires
 	rt := jwt.NewWithClaims(jwt.SigningMethodHS256, rtClaims)
 	td.RefreshToken, err = rt.SignedString([]byte(os.Getenv("SIGNATURE")))

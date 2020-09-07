@@ -20,7 +20,7 @@ func ExtractTokenMetadata(r *http.Request) (*AccessDetails, error) {
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if ok && token.Valid {
 	   accessUuid, ok := claims["access_uuid"].(string)
-	   userId, ok := claims["user_id"].(string)
+	   userId, ok := claims["uid"].(string)
 	   if !ok {
 		  return nil, err
 	   }
