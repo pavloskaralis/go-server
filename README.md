@@ -6,8 +6,8 @@ An Https Golang server with /signup, /login, /profile, and /refresh routes.
 
 Server requires local copy of mongoDB and Redis (JWT tracking).
 
-- Mongo URI: mongodb://localhost:27017s
-- Redis DNS: localhost:6379
+* Mongo URI: mongodb://localhost:27017s
+* Redis DNS: localhost:6379
 
 ## Installation
 
@@ -22,11 +22,12 @@ go run main.go
 * Signup requires username, password, and email fields.
 * Password is hashed and salted by Bcrypt before storage in mongoDB.
 * /login and /signup initiate creation of access and refresh JWTs.
-* JWT tokens are tracked by Redis and get deleted after expiration. 
+* JWT tokens are tracked by Redis and are deleted after expiration. 
 * /login and /signup return Auth (tokens) and Profile(uid, username, email).
 * /profile is wrapped in auth middleware that checks access token expiration.
 * /profile validates access token and returnss Profile via uid in token claims. 
 * /refresh returns refreshed Auth if provided a valid refresh token.
+* .env is not ignored for demonstration and contains token signature.
 
 ## Testing
 
