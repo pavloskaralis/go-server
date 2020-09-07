@@ -27,7 +27,7 @@ go run main.go
 * /profile is wrapped in auth middleware that checks access token expiration.
 * /profile validates access token and returnss Profile via uid in token claims. 
 * /refresh returns refreshed Auth if provided a valid refresh token.
-* .env is not ignored for demonstration and contains token signature.
+* .env is not ignored for demonstration purposes and contains token signature.
 
 ## Testing
 
