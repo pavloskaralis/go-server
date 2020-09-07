@@ -11,6 +11,12 @@ Server requires local install of mongoDB and Redis (JWT tracking).
 
 ## Installation
 
+Install all dependencies.
+
+```bash
+go get -u ./...
+```
+
 Run the main function to start server.
 
 ```bash
