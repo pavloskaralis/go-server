@@ -4,7 +4,7 @@ An Https Golang server with /signup, /login, /profile, and /refresh routes.
 
 ## Requirements
 
-Server requires local copy of mongoDB and Redis (JWT tracking).
+Server requires local install of mongoDB and Redis (JWT tracking).
 
 * Mongo URI: mongodb://localhost:27017s
 * Redis DNS: localhost:6379
