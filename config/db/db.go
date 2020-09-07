@@ -8,8 +8,11 @@ import (
 
 var DB *mongo.Client
 
+//called from main
 func InitDB() (error) {
-	db, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
+	//connect to db
+	uri := "mongodb://localhost:27017"
+	db, err := mongo.NewClient(options.Client().ApplyURI(uri))
 	if err != nil {
 		return err
 	}
@@ -19,12 +22,12 @@ func InitDB() (error) {
 	if err != nil {
 		return err
 	}
+	//set global var
 	DB = db
 	return nil
 }
 
-func GetUserCollection() (*mongo.Collection, error) {
-	//connect to local mongo; return error if initialization fails
+func GetUserCollection() (*mongo.Collection) {
 	collection := DB.Database("GoServer").Collection("users")
-	return collection, nil 
+	return collection
 }

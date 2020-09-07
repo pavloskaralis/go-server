@@ -17,23 +17,18 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var resErr ResponseError
 
-	//retrieve request; lreturn error if body != model 
+	//retrieve request; return error if body != model 
 	var user model.User
 	body, _ := ioutil.ReadAll(r.Body)
 	err := json.Unmarshal(body, &user)
 	if err != nil {
-		resErr.Error = err.Error()
+		resErr.Error = "Invalid request body."
 		json.NewEncoder(w).Encode(resErr)
 		return
 	}
 
-	//retrieve collection; return error if mongo retrieval fails
-	collection, err := db.GetUserCollection()
-	if err != nil {
-		resErr.Error = err.Error()
-		json.NewEncoder(w).Encode(resErr)
-		return 
-	}
+	//retrieve collection
+	collection := db.GetUserCollection()
 
 	//query for existing user
 	var result model.User
@@ -44,6 +39,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(resErr)
 		return
 	}
+
 	//hash provided password; check against db hashed pw; return error if not a match
 	err = bcrypt.CompareHashAndPassword([]byte(result.Password), []byte(user.Password))
 	if err != nil {
@@ -60,6 +56,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(resErr)
 		return
 	}
+	
 	//create auth; return error if redis fails
 	err = auth.CreateAuth(uid, ts)
 	if err != nil {
@@ -68,7 +65,6 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-
 	//return auth and profile
 	resSuc := ResponseSuccess{
 		Auth: Auth{

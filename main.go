@@ -20,7 +20,7 @@ import (
 		var resErr controller.ResponseError
 		err := auth.ValidateToken(r)
 		if err != nil {
-			resErr.Error = err.Error()
+			resErr.Error = "Token is invalid."
 			json.NewEncoder(w).Encode(resErr)
 			return
 		}
@@ -31,9 +31,9 @@ import (
 
 
 func main() {
-	//load env var
+	//load env variables (SIGNATURE)
 	godotenv.Load()
-	//note: self signed certificate
+	//note: self signed certificate; will cause Postman warning
     err := httpscerts.Check("cert.pem", "key.pem")
     if err != nil {
         err = httpscerts.Generate("cert.pem", "key.pem", "127.0.0.1:8080")
