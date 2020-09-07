@@ -40,7 +40,6 @@ func RefreshHandler(w http.ResponseWriter, r *http.Request) {
 	   }
 	   return []byte(os.Getenv("SIGNATURE")), nil
 	})
-
 	if err != nil {
 		resErr.Error = "Refresh token is invalid."
 		json.NewEncoder(w).Encode(resErr)
@@ -74,7 +73,7 @@ func RefreshHandler(w http.ResponseWriter, r *http.Request) {
 		//delete previous token; return error if redis fails
 		deleted, delErr := auth.DeleteAuth(refreshUuid)
 		if delErr != nil || deleted == 0 { //if any goes wrong
-			resErr.Error = "Failed to delete old refresh token."
+			resErr.Error = "Refresh token no longer exists."
 			json.NewEncoder(w).Encode(resErr)
 			return
 		}

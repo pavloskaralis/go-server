@@ -6,7 +6,7 @@ import (
 
 var Redis *redis.Client
 
-//caled from main
+//called from main
 func InitRedis() ( error ) {
 	//connect to redis
 	dsn := "localhost:6379"

@@ -29,7 +29,6 @@ import (
 }
 
 
-
 func main() {
 	//load env variables (SIGNATURE)
 	godotenv.Load()

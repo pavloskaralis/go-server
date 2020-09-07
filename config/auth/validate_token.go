@@ -6,7 +6,7 @@ import (
 )
 
 
-//check token expiration
+//check token expiration; used in middleware for protected routes
 func ValidateToken(r *http.Request) error {
 	token, err := VerifyToken(r)
 	if err != nil {

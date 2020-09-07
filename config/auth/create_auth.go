@@ -5,7 +5,6 @@ import (
 )
 
 func CreateAuth(userid string, td *TokenDetails) error {
-	
 	//unix to UTC
     at := time.Unix(td.AtExpires, 0) 
     rt := time.Unix(td.RtExpires, 0)

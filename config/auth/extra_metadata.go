@@ -11,7 +11,7 @@ type AccessDetails struct {
     UserId   string
 }
 
-//extract uid 
+//extract uid and uuid to verify access token in redis
 func ExtractTokenMetadata(r *http.Request) (*AccessDetails, error) {
 	token, err := VerifyToken(r)
 	if err != nil {
@@ -19,18 +19,18 @@ func ExtractTokenMetadata(r *http.Request) (*AccessDetails, error) {
 	}
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if ok && token.Valid {
-	   accessUuid, ok := claims["access_uuid"].(string)
-	   userId, ok := claims["uid"].(string)
-	   if !ok {
-		  return nil, err
-	   }
-	   if err != nil {
-		  return nil, err
-	   }
-	   return &AccessDetails{
-		  AccessUuid: accessUuid,
-		  UserId:   userId,
-	   }, nil
+		accessUuid, ok := claims["access_uuid"].(string)
+		if !ok {
+			return nil, err
+		}
+		userId, ok := claims["uid"].(string)
+	   	if !ok {
+			return nil, err
+	 	}
+		return &AccessDetails{
+			AccessUuid: accessUuid,
+			UserId:   userId,
+		}, nil
 	}
 	return nil, err
-  }
+}
