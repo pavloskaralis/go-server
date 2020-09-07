@@ -56,6 +56,7 @@ Url: https://localhost:8080/refresh
 Body: {
     "refresh_token": "<refresh_token>",
 }
+```
 ## Details
 
 * Connection is encrypted through Https with self-signed certificate.
