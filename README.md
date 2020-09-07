@@ -1,6 +1,6 @@
 # Go Server
 
-An Https Golang server with /signup, /login, /refresh, and /profile routes.
+An Https Golang server with /signup, /login, /profile, and /refresh routes.
 
 ## Requirements
 
