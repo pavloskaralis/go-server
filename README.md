@@ -27,8 +27,8 @@ go run main.go
 * Connection is encrypted through Https with self-signed certificate.
 * Signup requires username, password, and email fields.
 * Password is hashed and salted by Bcrypt before storage in mongoDB.
-* /login and /signup initiate creation of access and refresh JWTs.
-* JWT tokens are tracked by Redis and get deleted after expiration. 
+* /login and /signup initiate creation of access and refresh tokens.
+* JWTs are tracked by Redis and get automatically deleted after expiration. 
 * /login and /signup return Auth (tokens) and Profile (uid, username, email).
 * /profile is wrapped in auth middleware that checks access token expiration.
 * /profile validates access token and returnss Profile via uid in token claims. 
